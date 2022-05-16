@@ -15,7 +15,7 @@ while True:
             print("You win, Paper covers Rock")
         elif rand_choice == "paper" and player_choice == "rock":
             print("I win, Paper covers rock")
-        elif rand_choice == "paper" and player_choice == "scissors":
+        elif rand_choice == "paper" and player_choice == "scissors": 
             print("You win, Scissors cuts Paper")
         elif rand_choice == "scissors" and player_choice == "rock":
             print("You win, Rock crushes Scissors")
