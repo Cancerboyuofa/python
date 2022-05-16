@@ -4,12 +4,10 @@ while True:
     possible_options = ["rock", "paper", "scissors"]
     rand_choice = random.choice(possible_options)
     player_choice = input("Please choose your play: rock, paper, or scissors\n")
-
     player_choice = player_choice.lower()
 
     if rand_choice == player_choice:
         print("We tied!")
-
     else:
         if rand_choice == "rock" and player_choice == "scissors":
             print("I win, Rock beats scissors")
@@ -26,6 +24,4 @@ while True:
 
     play_again = input("Want to play again? Y or N?\n")
     if play_again.lower() != "y":
-    
         break
-    
