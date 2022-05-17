@@ -1,27 +1,44 @@
 import random
-
-while True:
+c_score = 0
+p_score = 0
+while p_score < 3 or c_score < 3:
     possible_options = ["rock", "paper", "scissors"]
-    rand_choice = random.choice(possible_options)
+    cpu_choice = random.choice(possible_options)
     player_choice = input("Please choose your play: rock, paper, or scissors\n")
     player_choice = player_choice.lower()
 
-    if rand_choice == player_choice:
+    if cpu_choice == player_choice:
         print("We tied!")
     else:
-        if rand_choice == "rock" and player_choice == "scissors":
+        if cpu_choice == "rock" and player_choice == "scissors":
             print("I win, Rock beats scissors")
-        elif rand_choice == "rock" and player_choice == "paper":
+            c_score += 1
+        elif cpu_choice == "rock" and player_choice == "paper":
             print("You win, Paper covers Rock")
-        elif rand_choice == "paper" and player_choice == "rock":
+            p_score += 1
+        elif cpu_choice == "paper" and player_choice == "rock":
             print("I win, Paper covers rock")
-        elif rand_choice == "paper" and player_choice == "scissors": 
+            c_score += 1
+        elif cpu_choice == "paper" and player_choice == "scissors": 
             print("You win, Scissors cuts Paper")
-        elif rand_choice == "scissors" and player_choice == "rock":
+            p_score += 1
+        elif cpu_choice == "scissors" and player_choice == "rock":
             print("You win, Rock crushes Scissors")
-        elif rand_choice == "scissors" and player_choice == "paper":
+            p_score += 1
+        elif cpu_choice == "scissors" and player_choice == "paper":
             print("I win, Scissors cuts Paper!")
-
-    play_again = input("Want to play again? Y or N?\n")
-    if play_again.lower() != "y":
+            c_score += 1
+    if p_score == 3:
+        print("\nYou win. Boohoo\n")
+        break
+    elif c_score == 3:
+        print("\nI win, sucker!\n")
+        break
+    else:
+        print("My score is currently: ",c_score)
+        print("Your score is currently: ",p_score)
+        want_continue = input("Ready for the next round? Y or N?\n")
+       
+    if want_continue.lower() != "y":
+        print("Sorry to hear you quit! See you later...")
         break
