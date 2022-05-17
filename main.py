@@ -47,7 +47,7 @@ while p_score < play_to or c_score < play_to:
         print("\nI win, sucker!\n")
         break
     else:
-        print("My score is currently: " + str(c_score) + "  *--|--* " + name + "'s score is currently: " + str(p_score) + "\n")
+        print("My score is currently: " + str(c_score) + "    <--|-->   " + name + "'s score is currently: " + str(p_score) + "\n")
         want_continue = input("\nReady for the next round? Y or N?\n")
        
     if want_continue.lower() != "y":
