@@ -1,0 +1,3 @@
+import customTkinter
+
+print("MyQSO")
