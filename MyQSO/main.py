@@ -9,6 +9,13 @@ app = ct.CTk()  # create CTk window like you do with the Tk window
 app.geometry("600x400")
 app.title("MyQSO")
 
+# Add image file
+bg = tkinter.PhotoImage(file = "myqso_logo.png")
+  
+# Show image using label
+label1 = Label( root, image = bg)
+label1.place(x = 0, y = 0)
+
 # Variables
 
 # Functions
@@ -19,16 +26,21 @@ def contacts_btn():
 def map_btn():
     print("Map button pressed")
 
+
 def call_search(*args):
     if len(call_entry.get()) == 0:
-        callsign = "ERROR: CALLSIGN EMPTY"
+        callsign = "ERROR: CALLSIGN EMPTY!"
         result_label = ct.CTkLabel(master=app, text=callsign, text_color="RED", font=("Arial", 20))
         result_label.place(relx=.5, rely=.75, anchor=tkinter.CENTER)
+        result_label.after(2000, result_label.destroy)
     else:
-        callsign = call_entry.get()
+        callsign = "You wrote : " + str(call_entry.get())
         result_label = ct.CTkLabel(master=app, text=callsign, text_color="white", font=("Arial", 26))
-        result_label.place(relx=.5, rely=.75, anchor=tkinter.CENTER)
+        result_label.place(relx=.5, rely=.7, anchor=tkinter.CENTER)
+        result_label.after(2000, result_label.destroy)
         
+
+
 
 
 # Setup main window navigation
