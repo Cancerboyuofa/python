@@ -1,13 +1,12 @@
 import os
+import sqlite3
 import requests
 from requests.exceptions import HTTPError
 import json
 import tkinter
 import customtkinter as ct
 
-base_folder = os.path.dirname(__file__)
-bg_path = os.path.join(base_folder, 'myqso_bg.png')
-logo_path = os.path.join(base_folder, 'myqso_logo.png')
+
 
 ct.set_appearance_mode("dark")  # Modes: system (default), light, dark
 ct.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
@@ -18,41 +17,32 @@ app.resizable(False, False)
 app.title("MyQSO")
 
 
-# Add background
+# Add app background/logo
+
+base_folder = os.path.dirname(__file__)
+bg_path = os.path.join(base_folder, 'myqso_bg.png')
+logo_path = os.path.join(base_folder, 'myqso_logo.png')
 bg = tkinter.PhotoImage(file = bg_path)
 label1 = tkinter.Label(app, image = bg, text="")
 label1.place(x = 0, y = 0)
 
 
-  
-# Setup main window navigation buttons
-
-#header = ct.CTkLabel(master=app, text="MyQSO", text_color="white", font=("Arial", 46))
-#header.place(relx=0.5, rely=0.1, anchor=tkinter.CENTER)
-
-#button = ct.CTkButton(master=app, text="MyContacts", command=contacts_btn)
-#button.place(relx=0.35, rely=0.8, anchor=tkinter.CENTER)
-
-#button = ct.CTkButton(master=app, text="MyMap", command=map_btn)
-#button.place(relx=0.65, rely=0.8, anchor=tkinter.CENTER)
-
-button = ct.CTkButton(master=app, text="Exit", command=exit)
-button.place(relx=0.5, rely=0.9, anchor=tkinter.CENTER)
-
-# Functions
+# All Data Functions
 
 def get_data(sign):
 
     try:
         api_request = requests.get("http://api.hamdb.org/" + sign + "/json/myqso")
 
-        # Parse JSON Return
+    # Parse JSON Return
+
         api = json.loads(api_request.content)
         f_name = api['hamdb']['callsign']['fname']
         l_name = api['hamdb']['callsign']['name']
         zip = api['hamdb']['callsign']['zip']
         return [f_name, l_name, zip]
-
+    
+    # Error Checking
 
     except HTTPError as http_err:
         print(f'HTTP error occurred: {http_err}')
@@ -60,16 +50,7 @@ def get_data(sign):
         print(f'Other error occurred: {err}')
 
 
-
-def contacts_btn():
-    print("Contacts button pressed")
-    
-
-
-def map_btn():
-    print("Map button pressed")
-
-
+# Check callsign box for errors and then if good, request data
 
 def call_search(*args):
     callsign = call_entry.get()
@@ -87,11 +68,17 @@ def call_search(*args):
         last = data[1]
         name = str(first) + " " + str(last)
         zip = str(data[2])
+
+
+# Check if callsign in DB or not
         
         if zip == "NOT_FOUND":
             result_label = ct.CTkLabel(master=app, text=callsign + " Not Found in DB", text_color="white", font=("Arial", 14))
             result_label.place(relx=.5, rely=.7, anchor=tkinter.CENTER)
             result_label.after(3000, result_label.destroy)
+
+
+# Parse and format callsign data
 
         else:
             result_label = ct.CTkLabel(master=app, text=str(callsign) + "'s Name is: " + name, text_color="white", font=("Arial", 14))
@@ -102,15 +89,23 @@ def call_search(*args):
             result_label.place(relx=.5, rely=.8, anchor=tkinter.CENTER)
             result_label.after(3000, result_label.destroy)
 
-# Call Entry and Search
 
+# Setup Text buttons
 call_entry = ct.CTkEntry(master=app, height=50, width=100, placeholder_text="CALL SIGN", fg_color="white", text_color="black")
 call_entry.place(relx=.45, rely=.5, anchor = tkinter.CENTER)
 
 call_button = ct.CTkButton(master=app, text="Search", command=call_search, width=50, height=50)
 call_button.place(relx=0.6, rely=0.5, anchor=tkinter.CENTER)
 
+
+# Exit and Nav Buttons
+button = ct.CTkButton(master=app, text="Exit", command=exit)
+button.place(relx=0.5, rely=0.9, anchor=tkinter.CENTER)
+
+
+# Bind callsign box to enter key
 call_entry.bind('<Return>', call_search)
 
 
+# End of tkinter app
 app.mainloop()
