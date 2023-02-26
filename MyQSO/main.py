@@ -1,29 +1,59 @@
-import customtkinter
+import tkinter
+import customtkinter as ct
+
+ct.set_appearance_mode("dark")  # Modes: system (default), light, dark
+ct.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
+
+app = ct.CTk()  # create CTk window like you do with the Tk window
+app.geometry("600x400")
+app.title("MyQSO")
 
 
-class MyTabView(customtkinter.CTkTabview):
-    def __init__(self, master, **kwargs):
-        super().__init__(master, **kwargs)
-
-        # create tabs
-        self.add("tab 1")
-        self.add("tab 2")
-
-        # add widgets on tabs
-        self.label = customtkinter.CTkLabel(master=self.tab("tab 1"))
-        self.label.grid(row=0, column=0, padx=20, pady=10)
-
-        self.label = customtkinter.CTkLabel(master=self.tab("tab 2"))
-        self.label.grid(row=0, column=0, padx=20, pady=10)
+# variables
 
 
-class App(customtkinter.CTk):
-    def __init__(self):
-        super().__init__()
 
-        self.tab_view = MyTabView(master=self)
-        self.tab_view.grid(row=0, column=0, padx=20, pady=20)
+# Functions
+
+def contacts_btn():
+    print("Contacts button pressed")
+    
+def map_btn():
+    print("Map button pressed")
+
+def call_search():
+    callsign = call_entry.get()
+    result_label = ct.CTkLabel(master=app, text=callsign, text_color="white", font=("Arial", 36))
+    result_label.place(relx=.7, rely=.7, anchor=tkinter.CENTER)
+   
+
+# Call Entry and Search
+
+call_entry = ct.CTkEntry(master=app, height=50, width=100, placeholder_text="CALL SIGN", fg_color="white", text_color="black")
+call_entry.place(relx=.4, rely=.5, anchor = tkinter.CENTER)
+
+call_button = ct.CTkButton(master=app, text="Search", command=call_search, width=50, height=50)
+call_button.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
 
 
-app = App()
+#name_entry = ct.CTkEntry(master=app, height=10, width=150, placeholder_text="CALL SIGN", fg_color="white", text_color="black")
+#call_entry.place(relx=.2, rely=.5, anchor = tkinter.CENTER)
+
+
+# Use CTkButton instead of tkinter Button
+
+button = ct.CTkButton(master=app, text="MyContacts", command=contacts_btn)
+button.place(relx=0.35, rely=0.1, anchor=tkinter.CENTER)
+
+
+button = ct.CTkButton(master=app, text="MyMap", command=map_btn)
+button.place(relx=0.65, rely=0.1, anchor=tkinter.CENTER)
+
+button = ct.CTkButton(master=app, text="Exit", command=exit)
+button.place(relx=0.5, rely=0.9, anchor=tkinter.CENTER)
+
+
+
+
+
 app.mainloop()

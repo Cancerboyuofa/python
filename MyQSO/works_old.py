@@ -21,16 +21,18 @@ def contacts_btn():
 def map_btn():
     print("Map button pressed")
 
-def get_data():
-   call_entry.config(text= entry.get())
-
+def call_search():
+    callsign = call_entry.get()
+    result_label = ct.CTkLabel(master=app, text=callsign, text_color="white", font=("Arial", 36))
+    result_label.place(relx=.7, rely=.7, anchor=tkinter.CENTER)
+   
 
 # Call Entry and Search
 
 call_entry = ct.CTkEntry(master=app, height=50, width=100, placeholder_text="CALL SIGN", fg_color="white", text_color="black")
 call_entry.place(relx=.4, rely=.5, anchor = tkinter.CENTER)
 
-call_button = ct.CTkButton(master=app, text="Search", command=call_search(callsign), width=50, height=50)
+call_button = ct.CTkButton(master=app, text="Search", command=call_search, width=50, height=50)
 call_button.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
 
 
