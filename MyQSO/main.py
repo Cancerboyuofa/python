@@ -94,8 +94,8 @@ def call_search(*args):
   
 # Setup main window navigation buttons
 
-header = ct.CTkLabel(master=app, text="MyQSO", text_color="white", font=("Arial", 46))
-header.place(relx=0.5, rely=0.1, anchor=tkinter.CENTER)
+#header = ct.CTkLabel(master=app, text="MyQSO", text_color="white", font=("Arial", 46))
+#header.place(relx=0.5, rely=0.1, anchor=tkinter.CENTER)
 
 #button = ct.CTkButton(master=app, text="MyContacts", command=contacts_btn)
 #button.place(relx=0.35, rely=0.8, anchor=tkinter.CENTER)
