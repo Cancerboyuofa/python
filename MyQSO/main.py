@@ -28,7 +28,7 @@ label1.place(x = 0, y = 0)
 
 # Setup Database
 
-conn = sqlite3.connect('MyQSO.db')
+conn = sqlite3.connect('./MyQSO/MyQSO.db')
 
 c = conn.cursor()
 
@@ -52,6 +52,11 @@ c.execute("""CREATE TABLE IF NOT EXISTS callsigns (
     )
     
     """)
+
+#commit table creation
+
+conn.commit()
+
 
 # Callsign Functions
 
