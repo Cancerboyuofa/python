@@ -7,7 +7,6 @@ import tkinter
 import customtkinter as ct
 
 
-
 ct.set_appearance_mode("dark")  # Modes: system (default), light, dark
 ct.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
 
@@ -27,7 +26,34 @@ label1 = tkinter.Label(app, image = bg, text="")
 label1.place(x = 0, y = 0)
 
 
-# All Data Functions
+# Setup Database
+
+conn = sqlite3.connect('MyQSO.db')
+
+c = conn.cursor()
+
+# Create DB Table
+
+c.execute("""CREATE TABLE IF NOT EXISTS callsigns (
+    
+    sign TEXT, 
+    first_name TEXT,
+    last_name TXEXT,
+    class TEXT,
+    address TEXT,
+    city TEXT,
+    state TEXT,
+    zip_code INTEGER,
+    country TEXT,
+    map_lat BLOB,
+    map_lon BLOB,
+    map_grid TEXT,
+    last_contact INTEGER
+    )
+    
+    """)
+
+# Callsign Functions
 
 def get_data(sign):
 
