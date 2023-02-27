@@ -11,7 +11,7 @@ import customtkinter as ct
 # Get Current Date and Time
 
 unix = int(time.time())
-date = str(datetime.datetime.fromtimestamp(unix).strftime('%m-%d-%Y %H:%M'))
+date = str(datetime.datetime.fromtimestamp(unix).strftime('%m-%d-%Y'))
 
 # Begin GUI
 
