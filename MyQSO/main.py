@@ -72,7 +72,7 @@ conn.commit()
 def get_data(sign):
 
     try:
-        api_request = requests.get("http://api.hamdb.org/" + sign + "/json/myqso")
+        api_request = requests.get("http://api.hamdb.org/v1/" + sign + "/json/myqso")
 
     # Parse JSON Return
 
