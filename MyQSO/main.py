@@ -37,7 +37,7 @@ label1.place(x = 0, y = 0)
 
 # Setup Database
 
-conn = sqlite3.connect('./MyQSO/MyQSO.db')
+conn = sqlite3.connect('MyQSO.db')
 
 c = conn.cursor()
 
