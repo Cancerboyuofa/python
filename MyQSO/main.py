@@ -2,7 +2,6 @@ import os
 import time
 import datetime
 import sqlite3
-
 import requests
 from requests.exceptions import HTTPError
 import json
