@@ -7,6 +7,7 @@ from requests.exceptions import HTTPError
 import json
 import tkinter
 import customtkinter as ct
+import threading
 
 # Get Current Date and Time
 
@@ -135,7 +136,8 @@ def db_search(callsign):
         result_label = ct.CTkLabel(master=app, text="No prior contacts, searching online...", text_color="white", font=("Arial", 14))
         result_label.place(relx=.5, rely=.7, anchor=tkinter.CENTER)
         result_label.after(2000, result_label.destroy)
-        app.after(2000, lambda: call_search(callsign, found))
+        app.after(1000, lambda: threading.Thread(call_search(callsign, found)))
+        
 
 
 def call_search(callsign, found):
