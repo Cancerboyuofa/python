@@ -21,8 +21,9 @@ ct.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
 
 app = ct.CTk()  # create CTk window like you do with the Tk window
 app.geometry("600x400")
-app.resizable(False, False)
+app.minsize(width=600, height=400)
 app.title("MyQSO")
+
 
 
 # Add app background/logo
@@ -66,6 +67,18 @@ c.execute("""CREATE TABLE IF NOT EXISTS callsigns (
 #commit table creation
 
 conn.commit()
+
+# Placeholder functions
+
+def logging_function():
+    return
+
+def contacts_function():
+    return
+
+def mapping_function():
+    return
+
 
 
 # Callsign Functions
@@ -181,19 +194,49 @@ def call_search(callsign, found):
         result_label.place(relx=.5, rely=.7, anchor=tkinter.CENTER)
         result_label.after(2000, result_label.destroy)             
 
-           
+
+# Configure App Grid
+
+app.grid_rowconfigure((0, 1), weight=1)
+app.grid_columnconfigure((2), weight=2)
+
+
+left_frame = ct.CTkFrame(master=app, width=150)
+left_frame.grid(row=0, column=0, rowspan=6, padx=0, pady=0, sticky="nsw")
+
 
 # Setup Text buttons
-call_entry = ct.CTkEntry(master=app, height=50, width=100, placeholder_text="CALL SIGN", fg_color="white", text_color="black")
-call_entry.place(relx=.45, rely=.5, anchor = tkinter.CENTER)
 
-call_button = ct.CTkButton(master=app, text="Search", command=callsign_valid, width=50, height=50)
-call_button.place(relx=0.6, rely=0.5, anchor=tkinter.CENTER)
+call_label = ct.CTkLabel(master=app, text="Please Enter your callsign:", width=200, height=50, corner_radius=5, text_color="white", bg_color='transparent', font=("Arial", 14))
+call_label.grid(row=2, column=2, padx=10, pady=10)
+
+
+call_entry = ct.CTkEntry(master=app, height=50, width=100, placeholder_text="CALL SIGN", fg_color="white", text_color="black")
+call_entry.grid(row=3, column=2, padx=20, pady=20, sticky="ew")
+
+
+call_button = ct.CTkButton(master=app, text="Search", command=callsign_valid, width=40, height=30)
+call_button.grid(row=4, column=2, padx=20, pady=20, sticky="ew")
+
 
 
 # Exit and Nav Buttons
-button = ct.CTkButton(master=app, text="Exit", command=exit)
-button.place(relx=0.5, rely=0.9, anchor=tkinter.CENTER)
+
+left_logo = ct.CTkLabel(master=left_frame, width=100, height=75, fg_color="#2b2b2b", text="")
+left_logo.grid(row=0, column=0, columnspan=2, padx=10, pady=10, sticky="n")
+
+log_button = ct.CTkButton(master=left_frame, text="Log Contact", command=logging_function)
+log_button.grid(row=2, column=0, columnspan=2, padx=20, pady=20, sticky="ew")
+
+contact_button = ct.CTkButton(master=left_frame, text="Browse Contacts", command=contacts_function)
+contact_button.grid(row=3, column=0, columnspan=2, padx=20, pady=20, sticky="ew")
+
+map_button = ct.CTkButton(master=left_frame, text="Map Contacts", command=mapping_function)
+map_button.grid(row=4, column=0, columnspan=2, padx=20, pady=20, sticky="ew")
+
+exit_button = ct.CTkButton(master=left_frame, text="Exit", command=exit)
+exit_button.grid(row=5, column=0, columnspan=2, padx=20, pady=20, sticky="sew")
+
 
 
 # Bind callsign box to enter key
