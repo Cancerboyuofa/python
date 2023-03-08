@@ -66,20 +66,84 @@ c.execute("""CREATE TABLE IF NOT EXISTS contacts (
 
 conn.commit()
 
-# Placeholder functions
+# Contact Frames and logging functions - need to optimize calls
 
-def log_contact(callsign, first, last, city, state, grid, date):
+def log_setup(callsign, first, last, city, state, grid, date):
+
+    callsign_query = c.execute("SELECT * FROM callsigns WHERE callsign = (?)", (callsign,))
+    
+    results = c.fetchall()
+    table_id = results[0][0]
+    state = results[0][7]
+    name = results[0][2]
+
    
-    table_id = c.execute("SELECT * FROM callsigns WHERE callsign = (?)", (callsign,))
-    table_id = c.fetchall()[0][0]
-    
-    
-    c.execute("INSERT INTO contacts(user_id, callsign, RQ, SQ, con_date, con_count) VALUES(?,?,?,?,?,?)",
-               (table_id, callsign.upper(), 59, 59, date, con_count)
-               )
+    contact_query = c.execute("SELECT MAX(con_count) FROM contacts WHERE callsign = (?)", (callsign,))
+
+    start_count = c.fetchall()[0][0]
+
+    if start_count == None:
+        start_count = 1
+        end_count = 1
+        
+    else: 
+        end_count = start_count + 1
     
     conn.commit()
+
+
+    home_right_frame = ct.CTkFrame(master=app, corner_radius=10)
+    home_right_frame.grid(row=1, column=1, rowspan=4, columnspan=2, padx=40, pady=40, sticky="eW")
+    home_right_frame.grid_columnconfigure((1), weight=1) 
+
+
+    contact_label = ct.CTkLabel(master=home_right_frame, text="Log a QSO:", width=200, height=50, corner_radius=5, text_color="white", bg_color='transparent', font=("Arial", 14))
+    contact_label.grid(row=1, column=0, columnspan=2, padx=10, pady=10, sticky="ew")  
+
+
+    contact_call = ct.CTkEntry(master=home_right_frame, height=50, width=60, placeholder_text="Callsign", fg_color="white", text_color="black")
+    contact_call.grid(row=2, column=0, columnspan=1, padx=20, pady=20, sticky="n")
+    contact_call.insert(0, callsign)
+
+    contact_name = ct.CTkEntry(master=home_right_frame, height=50, width=60, placeholder_text="Name", fg_color="white", text_color="black")
+    contact_name.grid(row=2, column=1, columnspan=1, padx=20, pady=20, sticky="n")
+    contact_name.insert(0, name)
+
+    contact_state = ct.CTkEntry(master=home_right_frame, height=50, width=40, placeholder_text="State", fg_color="white", text_color="black")
+    contact_state.grid(row=2, column=2, columnspan=1, padx=20, pady=20, sticky="n")
+    contact_state.insert(0, state)
+
+    contact_rq = ct.CTkEntry(master=home_right_frame, height=50, width=40, placeholder_text="59", fg_color="white", text_color="black")
+    contact_rq.grid(row=3, column=0, columnspan=1, padx=20, pady=20, sticky="s")
+    contact_rq.insert(0, "59")
+        
+    contact_sq = ct.CTkEntry(master=home_right_frame, height=50, width=40, placeholder_text="59", fg_color="white", text_color="black")
+    contact_sq.grid(row=3, column=1, columnspan=1, padx=20, pady=20, sticky="s")
+    contact_sq.insert(0, "59")
+
+    contact_count = ct.CTkEntry(master=home_right_frame, height=50, width=40, placeholder_text="59", fg_color="white", text_color="black")
+    contact_count.grid(row=3, column=2, columnspan=1, padx=20, pady=20, sticky="s")
+    contact_count.insert(0, start_count)
     
+
+
+    contact_button = ct.CTkButton(master=home_right_frame, text="Log QSO", width=40, height=30, command= lambda: store_contact(table_id, callsign, end_count))
+    contact_button.grid(row=4, column=0, columnspan=3, padx=20, pady=20, sticky="ew")
+
+    
+    
+
+    def store_contact(table_id, callsign, end_count):
+
+        rq = contact_rq.get()
+        sq = contact_sq.get()
+        
+        c.execute("INSERT INTO contacts(user_id, callsign, RQ, SQ, con_date, con_count) VALUES(?,?,?,?,?,?)",
+               (table_id, callsign.upper(), rq, sq, date, end_count)
+               )
+            
+        conn.commit()
+        
 
 def match_found(callsign, first, last, city, state, grid, date):
     answer = tkinter.messagebox.askyesno(title=callsign + ", " + state + " Found", message="Log new contact with " + first + "?")
@@ -90,7 +154,7 @@ def match_found(callsign, first, last, city, state, grid, date):
         on_home = False
         
         home_search_frame.destroy()
-        log_contact(callsign, first, last, city, state, grid, date)        
+        log_setup(callsign, first, last, city, state, grid, date)        
 
 
 def logging_function():
@@ -229,11 +293,14 @@ app.geometry("600x400")
 app.title("MyQSO")
 
 
-# Configure App Grid
+# Configure App Grids
 
 app.grid_rowconfigure((0, 1), weight=1)
 app.grid_columnconfigure((1), weight=2)
 
+
+left_frame = ct.CTkFrame(master=app, width=150)
+left_frame.grid(row=0, column=0, rowspan=6, padx=0, pady=0, sticky="nsw")
 
 left_frame = ct.CTkFrame(master=app, width=150)
 left_frame.grid(row=0, column=0, rowspan=6, padx=0, pady=0, sticky="nsw")
@@ -248,7 +315,7 @@ call_label = ct.CTkLabel(master=home_search_frame, text="Please Enter your calls
 call_label.grid(row=1, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
 
 
-call_entry = ct.CTkEntry(master=home_search_frame, height=50, width=100, placeholder_text="CALL SIGN", fg_color="white", text_color="black")
+call_entry = ct.CTkEntry(master=home_search_frame, height=50, width=100, placeholder_text="CALLSIGN", fg_color="white", text_color="black")
 call_entry.grid(row=2, column=0, columnspan=2, padx=20, pady=20, sticky="ew")
 
 
@@ -257,6 +324,8 @@ call_button.grid(row=3, column=0, columnspan=2, padx=20, pady=20, sticky="ew")
 
 
 # Exit and Nav Buttons
+
+
 
 
 log_button = ct.CTkButton(master=left_frame, text="Log Contact", command=logging_function)
