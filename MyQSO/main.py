@@ -83,7 +83,7 @@ def log_setup(callsign, first, last, city, state, grid, date):
     start_count = c.fetchall()[0][0]
 
     if start_count == None:
-        start_count = 1
+        start_count = 0
         end_count = 1
         
     else: 
@@ -270,7 +270,7 @@ def call_search(callsign, found):
     if not zip == "NOT_FOUND" and found == False:
         
         c.execute("INSERT INTO callsigns(callsign, first_name, last_name, class, address, city, state, zip_code, country, map_lat, map_lon, map_grid, last_contact) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)",
-                (callsign.upper(), first.title(), last.title(), level, street_addr, city.title(), state.upper(), zip, country.title(), lat, lon, grid.upper(), date)
+                (callsign.upper(), first.title(), last.title(), level, street_addr.title(), city.title(), state.upper(), int(zip), country.title(), float(lat), float(lon), grid.upper(), date)
                 )
                         
         conn.commit()
