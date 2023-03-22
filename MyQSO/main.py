@@ -288,9 +288,11 @@ def call_search(callsign, found):
 ct.set_appearance_mode("dark")  # Modes: system (default), light, dark
 ct.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
 
+
 app = ct.CTk()  # create CTk window like you do with the Tk window
 app.geometry("600x400")
 app.title("MyQSO")
+app.update_idletasks()
 
 
 # Configure App Grids
@@ -326,8 +328,6 @@ call_button.grid(row=3, column=0, columnspan=2, padx=20, pady=20, sticky="ew")
 # Exit and Nav Buttons
 
 
-
-
 log_button = ct.CTkButton(master=left_frame, text="Log Contact", command=logging_function)
 log_button.grid(row=1, column=0, columnspan=2, padx=20, pady=20, sticky="ns")
 
@@ -348,50 +348,3 @@ call_entry.bind('<Return>', callsign_valid)
 
 # End tkinter app
 app.mainloop()
-
-
-# ***  OLD CODE FROM BEFORE DIALOGS  ***
-
-
-    # NOT FOUND SEARCH SECTION
-
-        #result_label = ct.CTkLabel(master=right_frame, text="Match Found! " + matches[0][0] + " from: " + matches[0][1], text_color="white", font=("Arial", 14))
-        #result_label.grid(row=5, column=0, columnspan=2, sticky="sew", padx=5)
-        # result_label.after(3000, result_label.destroy)
-
-    # NOT FOUND SEARCH SECTION
-
-        #result_label = ct.CTkLabel(master=right_frame, text=" Sorry, " + callsign + " not found online", text_color="white", font=("Arial", 14))
-        #result_label.grid(row=4, column=0, columnspan=2, sticky="sew", padx=5)
-        #result_label.after(2000, result_label.destroy)
-
-    # ONLINE SEARCH SECTION
-
-        #result_label = ct.CTkLabel(master=right_frame, text=str(callsign) + "'s Name is: " + name + "\n", text_color="white", font=("Arial", 14))
-        #result_label.grid(row=4, column=0, columnspan=2, sticky="sew", padx=5)
-        #result_label.after(3000, result_label.destroy)
-        # state_msg = "Located in: "
-        #result_label = ct.CTkLabel(master=app, text=state_msg + state, text_color="white", font=("Arial", 14))
-        #result_label.place(relx=.5, rely=.8, anchor=tkinter.CENTER)
-        #result_label.after(3000, result_label.destroy)
-
-        #name = str(first) + " " + str(last)
-
-
-    # BAD CALLSIGN ERROR SECTION
-
-       # callsign = "ERROR: MISSING OR BAD CALLSIGN"
-       # result_label = ct.CTkLabel(master=right_frame, text=callsign, text_color="RED", font=("Arial", 16))
-       # result_label.grid(row=5, column=0, columnspan=2, sticky="sew", padx=5, pady=5)
-       # result_label.after(1500, result_label.destroy)
-
-
-    # Add app background/logo
-
-      #base_folder = os.path.dirname(__file__)
-      # bg_path = os.path.join(base_folder, 'myqso_bg.png')
-      #logo_path = os.path.join(base_folder, 'myqso_logo.png')
-      # bg = tkinter.PhotoImage(file = bg_path)
-
-      #label1 = tkinter.Label(app, image = bg, text="")
-      #label1.place(x = 0, y = 0)
