@@ -143,6 +143,8 @@ def log_setup(callsign, first, last, city, state, grid, date):
                )
             
         conn.commit()
+
+        logged = tkinter.messagebox.askyesno(title=callsign + "Logged", message=callsign + "Logged. Log another?")
         
 
 def match_found(callsign, first, last, city, state, grid, date):
